@@ -1,0 +1,155 @@
+{
+  "model": "xgboost",
+  "run_at": "2026-11-09 00:28",
+  "seed": 42,
+  "audit": {
+    "players": 113,
+    "raw_sets": 3518,
+    "flagged_sets": 41,
+    "flag_counts": {
+      "weekly_sets_won_mismatch": 30,
+      "incomplete_court_results": 5,
+      "weekly_games_mismatch": 3,
+      "attendance_award_with_scores": 3
+    },
+    "excluded_sets": 41,
+    "policy": "exclude_all_flagged",
+    "time_resolution": "session_date; all sets on a date predicted together",
+    "used_sets": 3477,
+    "seasons": {
+      "2023-Jul-Dec": 285,
+      "2024-Jan-Jun": 441,
+      "2024-Jul-Dec": 429,
+      "2025-Jan-Jun": 630,
+      "2025-Jul-Dec": 609,
+      "2026-Jan-Jun": 723,
+      "2026-Jul-Dec": 360
+    }
+  },
+  "splits": {
+    "train": [
+      "2023-Jul-Dec",
+      "2024-Jan-Jun",
+      "2024-Jul-Dec",
+      "2025-Jan-Jun",
+      "2025-Jul-Dec"
+    ],
+    "validation": [
+      "2026-Jan-Jun"
+    ],
+    "test": [
+      "2026-Jul-Dec"
+    ]
+  },
+  "features": [
+    "team_a_sum_log_sets",
+    "team_a_sum_smoothed_win_rate",
+    "team_a_sum_game_share",
+    "team_a_sum_elo_scaled",
+    "team_a_sum_log_games_per_set",
+    "team_a_min_log_sets",
+    "team_a_min_smoothed_win_rate",
+    "team_a_min_game_share",
+    "team_a_min_elo_scaled",
+    "team_a_min_log_games_per_set",
+    "team_a_max_log_sets",
+    "team_a_max_smoothed_win_rate",
+    "team_a_max_game_share",
+    "team_a_max_elo_scaled",
+    "team_a_max_log_games_per_set",
+    "team_b_sum_log_sets",
+    "team_b_sum_smoothed_win_rate",
+    "team_b_sum_game_share",
+    "team_b_sum_elo_scaled",
+    "team_b_sum_log_games_per_set",
+    "team_b_min_log_sets",
+    "team_b_min_smoothed_win_rate",
+    "team_b_min_game_share",
+    "team_b_min_elo_scaled",
+    "team_b_min_log_games_per_set",
+    "team_b_max_log_sets",
+    "team_b_max_smoothed_win_rate",
+    "team_b_max_game_share",
+    "team_b_max_elo_scaled",
+    "team_b_max_log_games_per_set",
+    "diff_sum_log_sets",
+    "diff_sum_smoothed_win_rate",
+    "diff_sum_game_share",
+    "diff_sum_elo_scaled",
+    "diff_sum_log_games_per_set"
+  ],
+  "tuning": {
+    "method": "RandomizedSearchCV",
+    "n_iter": 60,
+    "cv": "GroupKFold(3) by session date",
+    "scoring": "log loss on swap-augmented training rows",
+    "best_cv_log_loss": 0.5268540621984656,
+    "cv_log_loss_std": 0.010189565789541442,
+    "best_params": {
+      "colsample_bytree": 0.76385055454315,
+      "gamma": 1.9859295922386007,
+      "learning_rate": 0.012853058206481468,
+      "max_depth": 4,
+      "min_child_weight": 15.187372284643509,
+      "n_estimators": 490,
+      "reg_lambda": 1.5983203541349045,
+      "subsample": 0.851759455254105
+    }
+  },
+  "metrics": {
+    "train": {
+      "n": 2394,
+      "accuracy": 0.7844611528822055,
+      "roc_auc": 0.8683580991418817,
+      "log_loss": 0.4607067599492974,
+      "cold_start": {
+        "n": 162,
+        "accuracy": 0.691358024691358,
+        "roc_auc": 0.7624385749385749,
+        "log_loss": 0.5818316640898509
+      },
+      "established": {
+        "n": 2232,
+        "accuracy": 0.7912186379928315,
+        "roc_auc": 0.8746745793126824,
+        "log_loss": 0.4519154362616766
+      }
+    },
+    "validation": {
+      "n": 723,
+      "accuracy": 0.7178423236514523,
+      "roc_auc": 0.8079065781015642,
+      "log_loss": 0.528374998204831,
+      "cold_start": {
+        "n": 24,
+        "accuracy": 0.625,
+        "roc_auc": 0.6083916083916084,
+        "log_loss": 0.7977575838204046
+      },
+      "established": {
+        "n": 699,
+        "accuracy": 0.721030042918455,
+        "roc_auc": 0.8148897149126397,
+        "log_loss": 0.5191258107158844
+      }
+    },
+    "test": {
+      "n": 360,
+      "accuracy": 0.7472222222222222,
+      "roc_auc": 0.8309663046505152,
+      "log_loss": 0.5081199790735695,
+      "cold_start": {
+        "n": 0,
+        "accuracy": null,
+        "roc_auc": null,
+        "log_loss": null
+      },
+      "established": {
+        "n": 360,
+        "accuracy": 0.7472222222222222,
+        "roc_auc": 0.8309663046505152,
+        "log_loss": 0.5081199790735695
+      }
+    }
+  }
+}
